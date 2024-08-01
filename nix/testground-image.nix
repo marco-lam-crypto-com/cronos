@@ -10,6 +10,9 @@ let
   tmpDir = runCommandLocal "tmp" { } ''
     mkdir -p $out/tmp/
   '';
+  outputDir = runCommandLocal "output" { } ''
+    mkdir -p $out/output/
+  '';
 in
 dockerTools.buildLayeredImage {
   name = "cronos-testground";
@@ -18,6 +21,7 @@ dockerTools.buildLayeredImage {
     testground-testcase
     patched-cronosd
     tmpDir
+    outputDir
   ];
   config = {
     Expose = [ 9090 26657 26656 1317 26658 26660 26659 30000 ];
